@@ -1,21 +1,22 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { DataContext } from "./DataContext";
 
 export const CountContext = createContext();
 
 const CountProvider = ({ children }) => {
-  const [addCount, setAddCount] = useState(
-    JSON.parse(localStorage.getItem("addCount")) || 0
-  );
-  const [updateCount, setUpdateCount] = useState(
-    JSON.parse(localStorage.getItem("updateCount")) || 0
-  );
+  const { users } = useContext(DataContext);
+  const [addCount, setAddCount] = useState(0);
+  const [updateCount, setUpdateCount] = useState(0);
+
+  useEffect(() => {
+    setAddCount(users.length);
+  }, [users]);
+
   const handleAddCountChange = () => {
-    localStorage.setItem("addCount", JSON.stringify(addCount + 1));
     setAddCount(addCount + 1);
   };
   const handleUpdateCountChange = () => {
-    localStorage.setItem("updateCount", JSON.stringify(updateCount + 1));
-    setAddCount(updateCount + 1);
+    setUpdateCount(updateCount + 1);
   };
 
   return (

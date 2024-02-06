@@ -16,8 +16,9 @@ export const UserModel = model(
         /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
         "Invalid Email!",
       ],
-      unique: true,
+      trim: true,
       required: true,
+      unique: true,
     },
   })
 );

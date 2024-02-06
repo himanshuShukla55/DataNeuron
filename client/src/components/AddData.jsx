@@ -6,10 +6,12 @@ import { useContext, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { CountContext } from "../context/CountContext";
 import axios from "axios";
+import { DataContext } from "../context/DataContext";
 
 const AddData = () => {
   const [loading, setLoading] = useState(false);
   const { handleAddCountChange } = useContext(CountContext);
+  const { getUsers } = useContext(DataContext);
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
     useFormik({
       initialValues: {
@@ -26,10 +28,13 @@ const AddData = () => {
       }),
       onSubmit: async (values, { resetForm }) => {
         try {
+          setLoading(true);
           const res = await axios.post("/api/users", values);
           // console.log(res);
           handleAddCountChange();
-          toast.success("Sign Up Successfull!", {
+          getUsers();
+          setLoading(false);
+          toast.success("User Successfully Added!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -37,10 +42,11 @@ const AddData = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: "light",
           });
           resetForm();
         } catch (error) {
+          setLoading(false);
           const message = error.response.data.message;
           if (message.includes("duplicate key"))
             toast.error("Email alredy added!", {
@@ -51,7 +57,7 @@ const AddData = () => {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-              theme: "dark",
+              theme: "light",
             });
         }
       },
@@ -87,6 +93,7 @@ const AddData = () => {
       <button
         type="submit"
         className="bg-white p-3 text-black w-[250px] rounded-lg cursor-pointer font-semibold"
+        disabled={loading}
       >
         {loading ? (
           <ClipLoader
@@ -98,7 +105,7 @@ const AddData = () => {
             data-testid="loader"
           />
         ) : (
-          "Register"
+          "ADD USER"
         )}
       </button>
     </form>

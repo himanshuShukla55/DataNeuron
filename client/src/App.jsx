@@ -45,6 +45,9 @@ const App = () => {
           </ResizableContainer>
         </div>
       </div>
+      <div className="fixed top-[34px] left-3 text-3xl text-black/60 bg-white/70 p-3 font-semibold rounded-lg shadow-lg">
+        DataNeuron
+      </div>
       <ToastContainer />
     </>
   );
