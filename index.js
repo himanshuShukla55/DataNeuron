@@ -35,6 +35,10 @@ const swaggerDefinition = {
       url: `http://localhost:${port}`,
       description: "Development server",
     },
+    {
+      url: "https://dataneuron-backend-1mvm.onrender.com",
+      description: "Production server",
+    },
   ],
 };
 const options = {
